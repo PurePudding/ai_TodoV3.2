@@ -102,7 +102,7 @@ export const stopAssistant = () => {
 export const getCallDetails = async (callId: string) => {
   try {
     const response = await fetch(
-      `http://localhost:8000/call-details?call_id=${callId}`
+      `${import.meta.env.VITE_DATABASE_URL}/call-details?call_id=${callId}`
     );
     if (!response.ok) {
       throw new Error("Network response was not ok");

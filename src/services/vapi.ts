@@ -4,17 +4,87 @@ import Vapi from "@vapi-ai/web";
 export const vapi = new Vapi(import.meta.env.VITE_VAPI_API_KEY);
 const assistantId = import.meta.env.VITE_ASSISTANT_ID;
 
+// Assistant configuration
+const assistantConfig = {
+  name: "Taskflow Assistant",
+  description: "Bantu pengguna mengelola to-do list, pengingat, dan kalender secara personal dan kolaboratif menggunakan perintah suara atau teks.",
+  functions: {
+    // Todo functions
+    addTodo: {
+      description: "Tambah tugas baru",
+      parameters: {
+        title: "string",
+        description: "string?",
+        created_by: "string"
+      }
+    },
+    completeTodo: {
+      description: "Tandai tugas selesai",
+      parameters: {
+        id: "number",
+        created_by: "string"
+      }
+    },
+    shareTodo: {
+      description: "Bagikan tugas",
+      parameters: {
+        todo_id: "number",
+        user_email: "string"
+      }
+    },
+    
+    // Reminder functions
+    addReminder: {
+      description: "Tambah pengingat baru",
+      parameters: {
+        reminder_text: "string",
+        importance: "string",
+        created_by: "string"
+      }
+    },
+    shareReminder: {
+      description: "Bagikan pengingat",
+      parameters: {
+        reminder_id: "number",
+        user_email: "string"
+      }
+    },
+    
+    // Calendar functions
+    addCalendarEvent: {
+      description: "Tambah event kalender",
+      parameters: {
+        title: "string",
+        description: "string?",
+        event_from: "string",
+        event_to: "string",
+        created_by: "string"
+      }
+    },
+    shareCalendarEvent: {
+      description: "Bagikan event kalender",
+      parameters: {
+        event_id: "number",
+        user_email: "string"
+      }
+    }
+  }
+};
+
 /**
  * Start the VAPI assistant with user information
  */
 export const startAssistant = async (firstName: string, lastName: string, email: string, phone: string) => {
   const assistantOverrides = {
+    name: assistantConfig.name,
+    description: assistantConfig.description,
     variableValues: {
       firstName,
       lastName,
       email,
       phone,
     },
+    functions: assistantConfig.functions
   };
   return await vapi.start(assistantId, assistantOverrides);
 };
@@ -78,5 +148,6 @@ export default {
   startAssistant,
   stopAssistant,
   getCallDetails,
-  setupVapiEventHandlers
+  setupVapiEventHandlers,
+  assistantConfig
 };

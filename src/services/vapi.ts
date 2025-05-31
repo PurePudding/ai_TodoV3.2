@@ -10,26 +10,32 @@ const assistantConfig = {
   description: "Bantu pengguna mengelola to-do list, pengingat, dan kalender secara personal dan kolaboratif menggunakan perintah suara atau teks.",
   functions: {
     // Todo functions
-    addTodo: {
+    createTodo: {
       description: "Tambah tugas baru",
       parameters: {
-        title: "string",
-        description: "string?",
-        created_by: "string"
+        title: { type: "string", description: "Judul tugas" },
+        description: { type: "string", description: "Deskripsi tugas (opsional)" },
+        created_by: { type: "string", description: "Email pengguna yang membuat tugas" }
+      }
+    },
+    getTodos: {
+      description: "Lihat semua tugas",
+      parameters: {
+        user_email: { type: "string", description: "Email pengguna" }
       }
     },
     completeTodo: {
       description: "Tandai tugas selesai",
       parameters: {
-        id: "number",
-        created_by: "string"
+        id: { type: "number", description: "ID tugas" },
+        created_by: { type: "string", description: "Email pengguna" }
       }
     },
     shareTodo: {
       description: "Bagikan tugas",
       parameters: {
-        todo_id: "number",
-        user_email: "string"
+        todo_id: { type: "number", description: "ID tugas" },
+        user_email: { type: "string", description: "Email pengguna yang akan dibagikan" }
       }
     },
     
@@ -37,35 +43,47 @@ const assistantConfig = {
     addReminder: {
       description: "Tambah pengingat baru",
       parameters: {
-        reminder_text: "string",
-        importance: "string",
-        created_by: "string"
+        reminder_text: { type: "string", description: "Teks pengingat" },
+        importance: { type: "string", description: "Tingkat kepentingan (low/medium/high)" },
+        created_by: { type: "string", description: "Email pengguna yang membuat pengingat" }
+      }
+    },
+    getReminders: {
+      description: "Lihat semua pengingat",
+      parameters: {
+        user_email: { type: "string", description: "Email pengguna" }
       }
     },
     shareReminder: {
       description: "Bagikan pengingat",
       parameters: {
-        reminder_id: "number",
-        user_email: "string"
+        reminder_id: { type: "number", description: "ID pengingat" },
+        user_email: { type: "string", description: "Email pengguna yang akan dibagikan" }
       }
     },
     
     // Calendar functions
-    addCalendarEvent: {
+    addCalendarEntry: {
       description: "Tambah event kalender",
       parameters: {
-        title: "string",
-        description: "string?",
-        event_from: "string",
-        event_to: "string",
-        created_by: "string"
+        title: { type: "string", description: "Judul event" },
+        description: { type: "string", description: "Deskripsi event (opsional)" },
+        event_from: { type: "string", description: "Waktu mulai (format ISO)" },
+        event_to: { type: "string", description: "Waktu selesai (format ISO)" },
+        created_by: { type: "string", description: "Email pengguna yang membuat event" }
       }
     },
-    shareCalendarEvent: {
+    getCalendarEntries: {
+      description: "Lihat semua event kalender",
+      parameters: {
+        user_email: { type: "string", description: "Email pengguna" }
+      }
+    },
+    shareCalendarEntry: {
       description: "Bagikan event kalender",
       parameters: {
-        event_id: "number",
-        user_email: "string"
+        event_id: { type: "number", description: "ID event" },
+        user_email: { type: "string", description: "Email pengguna yang akan dibagikan" }
       }
     }
   }
